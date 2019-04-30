@@ -48,9 +48,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
         Toast.makeText(getApplicationContext(),"onTouch",Toast.LENGTH_SHORT).show();
         switch (v.getId()) {
 
-            case (R.id.buttonA):
+            case (R.id.buttonA):{
                 if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.playSound(sA);
-                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.playSound(stop);
+                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.playSound(stop);}
                 break;
             case (R.id.buttonB):
                 trumpet.playSound(sB);

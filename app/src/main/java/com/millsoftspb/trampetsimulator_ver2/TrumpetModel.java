@@ -18,7 +18,7 @@ public class TrumpetModel {
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build();
         soundPool = new SoundPool.Builder()
-                .setMaxStreams(7)
+                .setMaxStreams(4)
                 .setAudioAttributes(audioAttributes)
                 .build();
         soundA = soundPool.load(context,R.raw.a4,1);
@@ -52,6 +52,8 @@ public class TrumpetModel {
             case sG:
                 soundPool.play(soundG,1,1,0,0,1);
             break;
+            case stop:
+                soundPool.autoResume();
         }
  }
 public void destroyTrumpet (){
