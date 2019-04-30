@@ -5,19 +5,26 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PlayActivity extends AppCompatActivity implements View.OnTouchListener {
 
     public TrumpetModel trumpet;
-    private final int sA=1,sB=2,sC=3,sD=4,sE=5,sF=6,sG=7, stop = 10;
+    int stop = -10;
     private Button buttonA,buttonB,buttonC,buttonD,buttonE,buttonF,buttonG;
+    private TextView textView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+
+        trumpet = new TrumpetModel(this);
+        trumpet.soundPool.autoPause();
+
+        textView = findViewById(R.id.textView);
 
         buttonA = findViewById(R.id.buttonA);
         buttonA.setOnTouchListener(this);
@@ -45,30 +52,37 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Toast.makeText(getApplicationContext(),"onTouch",Toast.LENGTH_SHORT).show();
+
         switch (v.getId()) {
 
             case (R.id.buttonA):{
-                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.playSound(sA);
-                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.playSound(stop);}
+                textView.setText(event.toString());
+                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundA,1,1,0,1,1);
+                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundA);}
                 break;
-            case (R.id.buttonB):
-                trumpet.playSound(sB);
+            case (R.id.buttonB):{
+                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundB,1,1,0,0,1);
+                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundB);}
                 break;
-            case (R.id.buttonC):
-                trumpet.playSound(sC);
+            case (R.id.buttonC):{
+                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundC,1,1,0,0,1);
+                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundC);}
                 break;
-            case (R.id.buttonD):
-                trumpet.playSound(sD);
+            case (R.id.buttonD):{
+                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundD,1,1,0,0,1);
+                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundD);}
                 break;
-            case (R.id.buttonE):
-                trumpet.playSound(sE);
+            case (R.id.buttonE):{
+                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundE,1,1,0,0,1);
+                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundE);}
                 break;
-            case (R.id.buttonF):
-                trumpet.playSound(sF);
+            case (R.id.buttonF):{
+                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundF,1,1,0,0,1);
+                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundF);}
                 break;
-            case (R.id.buttonG):
-                trumpet.playSound(sG);
+            case (R.id.buttonG):{
+                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundG,1,1,0,0,1);
+                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundG);}
                 break;
         }
         return false;
