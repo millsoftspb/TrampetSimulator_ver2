@@ -5,15 +5,17 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class PlayActivity extends AppCompatActivity implements View.OnTouchListener {
 
     public TrumpetModel trumpet;
-    int stop = -10;
-    private Button buttonA,buttonB,buttonC,buttonD,buttonE,buttonF,buttonG;
-    private TextView textView;
+    private ImageView valve_1, valve_2, valve_3;
+    private final int noteA=1,noteB=2,noteC=3,noteD=4,noteE=5,noteF=6,noteG=7;
+    boolean isDownValve_1, isDownValve_2, isDownValve_3 = false;
+    float volume;
 
 
     @Override
@@ -21,70 +23,93 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
+        //init trumpet
         trumpet = new TrumpetModel(this);
-        trumpet.soundPool.autoPause();
 
-        textView = findViewById(R.id.textView);
+        //init valve view
+        valve_1 = findViewById(R.id.imageView1);
+        valve_1.setOnTouchListener(this);
+        valve_2 = findViewById(R.id.imageView2);
+        valve_2.setOnTouchListener(this);
+        valve_3 = findViewById(R.id.imageView3);
+        valve_3.setOnTouchListener(this);
 
-        buttonA = findViewById(R.id.buttonA);
-        buttonA.setOnTouchListener(this);
-        buttonB = findViewById(R.id.buttonB);
-        buttonB.setOnTouchListener(this);
-        buttonC = findViewById(R.id.buttonC);
-        buttonC.setOnTouchListener(this);
-        buttonD = findViewById(R.id.buttonD);
-        buttonD.setOnTouchListener(this);
-        buttonE = findViewById(R.id.buttonE);
-        buttonE.setOnTouchListener(this);
-        buttonF = findViewById(R.id.buttonF);
-        buttonF.setOnTouchListener(this);
-        buttonG = findViewById(R.id.buttonG);
-        buttonG.setOnTouchListener(this);
+
     }
 
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (trumpet!=null) trumpet.destroyTrumpet();
-    }
-
+    //touch processing
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
         switch (v.getId()) {
-
-            case (R.id.buttonA):{
-                textView.setText(event.toString());
-                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundA,1,1,0,1,1);
-                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundA);}
-                break;
-            case (R.id.buttonB):{
-                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundB,1,1,0,0,1);
-                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundB);}
-                break;
-            case (R.id.buttonC):{
-                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundC,1,1,0,0,1);
-                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundC);}
-                break;
-            case (R.id.buttonD):{
-                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundD,1,1,0,0,1);
-                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundD);}
-                break;
-            case (R.id.buttonE):{
-                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundE,1,1,0,0,1);
-                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundE);}
-                break;
-            case (R.id.buttonF):{
-                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundF,1,1,0,0,1);
-                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundF);}
-                break;
-            case (R.id.buttonG):{
-                if (event.getAction()==MotionEvent.ACTION_DOWN) trumpet.soundPool.play(trumpet.soundG,1,1,0,0,1);
-                if (event.getAction()==MotionEvent.ACTION_UP) trumpet.soundPool.stop(trumpet.soundG);}
-                break;
+            //**************Valve_1*******************
+            case (R.id.imageView1): {
+                if (event.getAction() == MotionEvent.ACTION_DOWN||event.getAction() == MotionEvent.ACTION_MOVE) {
+                    isDownValve_1 = true;
+                    valve_1.setImageResource(R.drawable.valve_png_down);
+                } else {
+                    isDownValve_1 = false;
+                    valve_1.setImageResource(R.drawable.valve_png_up);
+                }
+            }
+            trumpetManager();
+            break;
+            //**************Valve_2*******************
+            case (R.id.imageView2): {
+                if (event.getAction() == MotionEvent.ACTION_DOWN||event.getAction() == MotionEvent.ACTION_MOVE) {
+                    isDownValve_2 = true;
+                    valve_2.setImageResource(R.drawable.valve_png_down);
+                } else {
+                    isDownValve_2 = false;
+                    valve_2.setImageResource(R.drawable.valve_png_up);
+                }
+            }
+            trumpetManager();
+            break;
+            //**************Valve_3*******************
+            case (R.id.imageView3): {
+                if (event.getAction() == MotionEvent.ACTION_DOWN||event.getAction() == MotionEvent.ACTION_MOVE) {
+                    isDownValve_2 = true;
+                    valve_3.setImageResource(R.drawable.valve_png_down);
+                } else {
+                    isDownValve_2 = false;
+                    valve_3.setImageResource(R.drawable.valve_png_up);
+                }
+            }
+            trumpetManager();
+            break;
         }
-        return false;
+        return true;
     }
+    //****************calculate by touch valves***********************************
+    private void trumpetManager() {
+        //******D*******
+        if (isDownValve_1&!isDownValve_2&isDownValve_3) trumpet.play(volume,noteD);//  >=тТт=-
+
+        //******F*******
+        if (isDownValve_1&!isDownValve_2&!isDownValve_3) trumpet.play(volume,noteF);//  >=тТТ=-
+
+        //******B*******
+        if (!isDownValve_1&isDownValve_2&!isDownValve_3) trumpet.play(volume,noteB);//  >=TтТ=-
+
+        //******E*******
+        if (isDownValve_1&isDownValve_2&!isDownValve_3&volume<0.5) trumpet.play(1,noteE);//-  >=ттТ=-
+
+        //******A*******
+        if (isDownValve_1&isDownValve_2&!isDownValve_3&volume>=0.5) trumpet.play(1,noteA);// + >=ттТ=-
+
+        //******C*******
+        if (!isDownValve_1&!isDownValve_2&!isDownValve_3&volume<0.5) trumpet.play(1,noteC);//-  >=ТТТ=-
+
+        //******G*******
+        if (!isDownValve_1&!isDownValve_2&!isDownValve_3&volume>=0.5) trumpet.play(1,noteG);//+  >=ТТТ=-
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (trumpet != null) trumpet.destroyTrumpet();
+    }
+
 }

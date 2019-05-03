@@ -8,11 +8,12 @@ public class TrumpetModel {
 
     SoundPool soundPool;
     int soundA,soundB,soundC,soundD,soundE,soundF,soundG;
-    //private final int sA=1,sB=2,sC=3,sD=4,sE=5,sF=6,sG=7, stop=10;
-    private Context context;
+    private final int noteA=1,noteB=2,noteC=3,noteD=4,noteE=5,noteF=6,noteG=7;
 
-    public TrumpetModel(Context context) {
-        this.context = context;
+
+     TrumpetModel(Context context) {
+        Context myContext;
+        myContext = context;
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -21,42 +22,54 @@ public class TrumpetModel {
                 .setMaxStreams(4)
                 .setAudioAttributes(audioAttributes)
                 .build();
-        soundA = soundPool.load(context,R.raw.a4,1);
-        soundB = soundPool.load(context,R.raw.b4,1);
-        soundC = soundPool.load(context,R.raw.c4,1);
-        soundD = soundPool.load(context,R.raw.d4,1);
-        soundE = soundPool.load(context,R.raw.e4,1);
-        soundF = soundPool.load(context,R.raw.f4,1);
-        soundG = soundPool.load(context,R.raw.g4,1);
+        soundA = soundPool.load(myContext,R.raw.a4,1);
+        soundB = soundPool.load(myContext,R.raw.b4,1);
+        soundC = soundPool.load(myContext,R.raw.c4,1);
+        soundD = soundPool.load(myContext,R.raw.d4,1);
+        soundE = soundPool.load(myContext,R.raw.e4,1);
+        soundF = soundPool.load(myContext,R.raw.f4,1);
+        soundG = soundPool.load(myContext,R.raw.g4,1);
     }
-// public void playSound(int sound) {
-//        switch (sound) {
-//            case soundA:
-//                soundPool.play(soundA,1,1,0,0,1);
-//                break;
-//            case sB:
-//                soundPool.play(soundB,1,1,0,0,1);
-//                break;
-//            case sC:
-//                soundPool.play(soundC,1,1,0,0,1);
-//                break;
-//            case sD:
-//                soundPool.play(soundD,1,1,0,0,1);
-//                break;
-//            case sE:
-//                soundPool.play(soundE,1,1,0,0,1);
-//                break;
-//            case sF:
-//                soundPool.play(soundF,1,1,0,0,1);
-//                break;
-//            case sG:
-//                soundPool.play(soundG,1,1,0,0,1);
-//            break;
-//            case stop:
-//                soundPool.stop();
-//        }
-// }
-public void destroyTrumpet (){
+public void play(float volume, int note) {
+    switch (note) {
+        case noteA:
+            if (volume == 0) soundPool.stop(soundA);
+            else soundPool.play(soundA, volume, volume, 0, 0, 1);
+            break;
+
+        case noteB:
+            if (volume == 0) soundPool.stop(soundB);
+            else soundPool.play(soundB, volume, volume, 0, 0, 1);
+            break;
+
+        case noteC:
+            if (volume == 0) soundPool.stop(soundC);
+            else soundPool.play(soundC, volume, volume, 0, 0, 1);
+            break;
+
+        case noteD:
+            if (volume == 0) soundPool.stop(soundD);
+            else soundPool.play(soundD, volume, volume, 0, 0, 1);
+            break;
+
+        case noteE:
+            if (volume == 0) soundPool.stop(soundE);
+            else soundPool.play(soundE, volume, volume, 0, 0, 1);
+            break;
+
+        case noteF:
+            if (volume == 0) soundPool.stop(soundF);
+            else soundPool.play(soundF, volume, volume, 0, 0, 1);
+            break;
+
+        case noteG:
+            if (volume == 0) soundPool.stop(soundG);
+            else soundPool.play(soundG, volume, volume, 0, 0, 1);
+            break;
+
+    }
+}
+ void destroyTrumpet (){
 soundPool.release();
 soundPool = null;
     }
