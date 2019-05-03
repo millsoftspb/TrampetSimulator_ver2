@@ -3,12 +3,15 @@ package com.millsoftspb.trampetsimulator_ver2;
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.widget.TextView;
 
 public class TrumpetModel {
 
     SoundPool soundPool;
     int soundA,soundB,soundC,soundD,soundE,soundF,soundG;
     private final int noteA=1,noteB=2,noteC=3,noteD=4,noteE=5,noteF=6,noteG=7;
+
+
 
 
      TrumpetModel(Context context) {
@@ -31,6 +34,10 @@ public class TrumpetModel {
         soundG = soundPool.load(myContext,R.raw.g4,1);
     }
 public void play(float volume, int note) {
+         //temp
+            PlayActivity.volumeText.setText(String.valueOf(volume));
+            PlayActivity.noteText.setText(String.valueOf(note));
+
     switch (note) {
         case noteA:
             if (volume == 0) soundPool.stop(soundA);
