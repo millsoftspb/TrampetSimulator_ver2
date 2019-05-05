@@ -10,18 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class PlayActivity extends AppCompatActivity implements View.OnTouchListener, SensorEventListener {
 
     public TrumpetModel trumpet;
     private ImageView valve_1, valve_2, valve_3;
     private final int noteA=1,noteB=2,noteC=3,noteD=4,noteE=5,noteF=6,noteG=7;
+    private int notePlay;
     boolean isDownValve_1, isDownValve_2, isDownValve_3 = false;
-    float volume;
     float maxVolume,x,y;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -51,11 +49,11 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
 
 
         //init valve view
-        valve_1 = findViewById(R.id.imageView1);
+        valve_1 = findViewById(R.id.imageView3);
         valve_1.setOnTouchListener(this);
         valve_2 = findViewById(R.id.imageView2);
         valve_2.setOnTouchListener(this);
-        valve_3 = findViewById(R.id.imageView3);
+        valve_3 = findViewById(R.id.imageView1);
         valve_3.setOnTouchListener(this);
 
 
@@ -67,7 +65,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
 
         switch (v.getId()) {
             //**************Valve_1*******************
-            case (R.id.imageView1): {
+            case (R.id.imageView3): {
                 if (event.getAction() == MotionEvent.ACTION_DOWN||event.getAction() == MotionEvent.ACTION_MOVE) {
                     isDownValve_1 = true;
                     valve_1.setImageResource(R.drawable.valve_png_down);
@@ -76,7 +74,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
                     valve_1.setImageResource(R.drawable.valve_png_up);
                 }
             }
-            trumpetManager();
             break;
             //**************Valve_2*******************
             case (R.id.imageView2): {
@@ -88,10 +85,10 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
                     valve_2.setImageResource(R.drawable.valve_png_up);
                 }
             }
-            trumpetManager();
+
             break;
             //**************Valve_3*******************
-            case (R.id.imageView3): {
+            case (R.id.imageView1): {
                 if (event.getAction() == MotionEvent.ACTION_DOWN||event.getAction() == MotionEvent.ACTION_MOVE) {
                     isDownValve_2 = true;
                     valve_3.setImageResource(R.drawable.valve_png_down);
@@ -100,7 +97,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
                     valve_3.setImageResource(R.drawable.valve_png_up);
                 }
             }
-            trumpetManager();
+
             break;
         }
         return true;
@@ -108,42 +105,42 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
     //****************calculate by touch valves***********************************
     private void trumpetManager() {
         //******D*******
-        if (isDownValve_1&!isDownValve_2&isDownValve_3) trumpet.play(volume,noteD);//  >=тТт=-
+        if (isDownValve_1&!isDownValve_2&isDownValve_3) notePlay = noteD;//  >=тТт=-
 
         //******F*******
-        if (isDownValve_1&!isDownValve_2&!isDownValve_3) trumpet.play(volume,noteF);//  >=тТТ=-
+        if (isDownValve_1&!isDownValve_2&!isDownValve_3) notePlay = noteF;//  >=тТТ=-
 
         //******B*******
-        if (!isDownValve_1&isDownValve_2&!isDownValve_3) trumpet.play(volume,noteB);//  >=TтТ=-
+        if (!isDownValve_1&isDownValve_2&!isDownValve_3) notePlay = noteB;//  >=TтТ=-
 
         //******E*******
-        if (isDownValve_1&isDownValve_2&!isDownValve_3&volume<0.5) trumpet.play(1,noteE);//-  >=ттТ=-
+        if (isDownValve_1&isDownValve_2&!isDownValve_3&trumpet.volume<0.5) notePlay = noteE;//-  >=ттТ=-
 
         //******A*******
-        if (isDownValve_1&isDownValve_2&!isDownValve_3&volume>=0.5) trumpet.play(1,noteA);// + >=ттТ=-
+        if (isDownValve_1&isDownValve_2&!isDownValve_3&trumpet.volume>=0.5) notePlay = noteA;// + >=ттТ=-
 
         //******C*******
-        if (!isDownValve_1&!isDownValve_2&!isDownValve_3&volume<0.5) trumpet.play(1,noteC);//-  >=ТТТ=-
+        if (!isDownValve_1&!isDownValve_2&!isDownValve_3&trumpet.volume<0.5) notePlay = noteC;//-  >=ТТТ=-
 
-        //******G*******
-        if (!isDownValve_1&!isDownValve_2&!isDownValve_3&volume>=0.5) trumpet.play(1,noteG);//+  >=ТТТ=-
+        //******C*******
+        if (!isDownValve_1&!isDownValve_2&!isDownValve_3&trumpet.volume>=0.5) notePlay = noteG;//+  >=ТТТ=-
+
+        trumpet.play(notePlay);
 
     }
 
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
             maxValueText.setText(String.valueOf(maxVolume));
-            x = event.values[1];// XY plane
-        if (x>=0){
+            x = event.values[1]*10;// XY plane
             y = x/maxVolume;
-            if (y>=0&y<=1)
-                volume=y;
+            if (y<=1)
+                trumpet.volume=y;
+                trumpetManager();
         }
 
-
-
-    }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -160,6 +157,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this,mAccelerometer,SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override

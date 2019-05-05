@@ -7,14 +7,13 @@ import android.widget.TextView;
 
 public class TrumpetModel {
 
+    private final int noteA = 1, noteB = 2, noteC = 3, noteD = 4, noteE = 5, noteF = 6, noteG = 7;
     SoundPool soundPool;
-    int soundA,soundB,soundC,soundD,soundE,soundF,soundG;
-    private final int noteA=1,noteB=2,noteC=3,noteD=4,noteE=5,noteF=6,noteG=7;
+    int soundA, soundB, soundC, soundD, soundE, soundF, soundG;
+    float volume;
 
 
-
-
-     TrumpetModel(Context context) {
+    TrumpetModel(Context context) {
         Context myContext;
         myContext = context;
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -25,59 +24,87 @@ public class TrumpetModel {
                 .setMaxStreams(4)
                 .setAudioAttributes(audioAttributes)
                 .build();
-        soundA = soundPool.load(myContext,R.raw.a4,1);
-        soundB = soundPool.load(myContext,R.raw.b4,1);
-        soundC = soundPool.load(myContext,R.raw.c4,1);
-        soundD = soundPool.load(myContext,R.raw.d4,1);
-        soundE = soundPool.load(myContext,R.raw.e4,1);
-        soundF = soundPool.load(myContext,R.raw.f4,1);
-        soundG = soundPool.load(myContext,R.raw.g4,1);
+        soundA = soundPool.load(myContext, R.raw.a4, 1);
+        soundB = soundPool.load(myContext, R.raw.b4, 1);
+        soundC = soundPool.load(myContext, R.raw.c4, 1);
+        soundD = soundPool.load(myContext, R.raw.d4, 1);
+        soundE = soundPool.load(myContext, R.raw.e4, 1);
+        soundF = soundPool.load(myContext, R.raw.f4, 1);
+        soundG = soundPool.load(myContext, R.raw.g4, 1);
     }
-public void play(float volume, int note) {
-         //temp
-            PlayActivity.volumeText.setText(String.valueOf(volume));
-            PlayActivity.noteText.setText(String.valueOf(note));
 
-    switch (note) {
-        case noteA:
-            if (volume == 0) soundPool.stop(soundA);
-            else soundPool.play(soundA, volume, volume, 0, 0, 1);
-            break;
+    public void play(int note) {
+        //temp
+        PlayActivity.volumeText.setText(String.valueOf(volume));
+         
+        switch (note) {
+            case noteA:
+                if (volume <= 0.3)
+                    soundPool.stop(soundA);
+                else {
+                    soundPool.play(soundA, volume, volume, 0, 0, 1);
+                    PlayActivity.noteText.setText("A");
+                }
+                break;
 
-        case noteB:
-            if (volume == 0) soundPool.stop(soundB);
-            else soundPool.play(soundB, volume, volume, 0, 0, 1);
-            break;
+            case noteB:
+                if (volume <= 0.3)
+                    soundPool.stop(soundB);
+                else {
+                    soundPool.play(soundB, volume, volume, 0, 0, 1);
+                    PlayActivity.noteText.setText("B");
+                }
+                break;
 
-        case noteC:
-            if (volume == 0) soundPool.stop(soundC);
-            else soundPool.play(soundC, volume, volume, 0, 0, 1);
-            break;
+            case noteC:
+                if (volume <= 0.3)
+                    soundPool.stop(soundC);
+                else {
+                    soundPool.play(soundC, volume, volume, 0, 0, 1);
+                    PlayActivity.noteText.setText("C");
+                }
+                break;
 
-        case noteD:
-            if (volume == 0) soundPool.stop(soundD);
-            else soundPool.play(soundD, volume, volume, 0, 0, 1);
-            break;
+            case noteD:
+                if (volume <= 0.3) {
+                    soundPool.stop(soundD);
+                } else {
+                    soundPool.play(soundD, volume, volume, 0, 0, 1);
+                    PlayActivity.noteText.setText("D");
+                }
+                break;
 
-        case noteE:
-            if (volume == 0) soundPool.stop(soundE);
-            else soundPool.play(soundE, volume, volume, 0, 0, 1);
-            break;
+            case noteE:
+                if (volume <= 0.3)
+                    soundPool.stop(soundE);
+                else {
+                    soundPool.play(soundE, volume, volume, 0, 0, 1);
+                    PlayActivity.noteText.setText("E");
+                }
+                break;
 
-        case noteF:
-            if (volume == 0) soundPool.stop(soundF);
-            else soundPool.play(soundF, volume, volume, 0, 0, 1);
-            break;
+            case noteF:
+                if (volume <= 0.3)
+                    soundPool.stop(soundF);
+                else {
+                    soundPool.play(soundF, volume, volume, 0, 0, 1);
+                    PlayActivity.noteText.setText("F");
+                }
+                break;
 
-        case noteG:
-            if (volume == 0) soundPool.stop(soundG);
-            else soundPool.play(soundG, volume, volume, 0, 0, 1);
-            break;
-
+            case noteG:
+                if (volume <= 0.3)
+                    soundPool.stop(soundG);
+                else {
+                    soundPool.play(soundG, volume, volume, 0, 0, 1);
+                    PlayActivity.noteText.setText("G");
+                }
+                break;
+        }
     }
-}
- void destroyTrumpet (){
-soundPool.release();
-soundPool = null;
+
+    void destroyTrumpet() {
+        soundPool.release();
+        soundPool = null;
     }
 }
