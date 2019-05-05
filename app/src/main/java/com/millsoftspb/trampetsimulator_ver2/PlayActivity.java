@@ -49,11 +49,11 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
 
 
         //init valve view
-        valve_1 = findViewById(R.id.imageView3);
+        valve_1 = findViewById(R.id.imageView1);
         valve_1.setOnTouchListener(this);
         valve_2 = findViewById(R.id.imageView2);
         valve_2.setOnTouchListener(this);
-        valve_3 = findViewById(R.id.imageView1);
+        valve_3 = findViewById(R.id.imageView3);
         valve_3.setOnTouchListener(this);
 
 
@@ -65,7 +65,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
 
         switch (v.getId()) {
             //**************Valve_1*******************
-            case (R.id.imageView3): {
+            case (R.id.imageView1): {
                 if (event.getAction() == MotionEvent.ACTION_DOWN||event.getAction() == MotionEvent.ACTION_MOVE) {
                     isDownValve_1 = true;
                     valve_1.setImageResource(R.drawable.valve_png_down);
@@ -88,7 +88,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
 
             break;
             //**************Valve_3*******************
-            case (R.id.imageView1): {
+            case (R.id.imageView3): {
                 if (event.getAction() == MotionEvent.ACTION_DOWN||event.getAction() == MotionEvent.ACTION_MOVE) {
                     isDownValve_2 = true;
                     valve_3.setImageResource(R.drawable.valve_png_down);
@@ -108,16 +108,16 @@ public class PlayActivity extends AppCompatActivity implements View.OnTouchListe
         if (isDownValve_1&!isDownValve_2&isDownValve_3) notePlay = noteD;//  >=тТт=-
 
         //******F*******
-        if (isDownValve_1&!isDownValve_2&!isDownValve_3) notePlay = noteF;//  >=тТТ=-
+        if (!isDownValve_1&!isDownValve_2&isDownValve_3) notePlay = noteF;//  >=TТт=-
 
         //******B*******
         if (!isDownValve_1&isDownValve_2&!isDownValve_3) notePlay = noteB;//  >=TтТ=-
 
         //******E*******
-        if (isDownValve_1&isDownValve_2&!isDownValve_3&trumpet.volume<0.5) notePlay = noteE;//-  >=ттТ=-
+        if (!isDownValve_1&isDownValve_2&isDownValve_3&trumpet.volume<0.5) notePlay = noteE;//-  >=Ттт=-
 
         //******A*******
-        if (isDownValve_1&isDownValve_2&!isDownValve_3&trumpet.volume>=0.5) notePlay = noteA;// + >=ттТ=-
+        if (!isDownValve_1&isDownValve_2&isDownValve_3&trumpet.volume>=0.5) notePlay = noteA;// + >=Ттт=-
 
         //******C*******
         if (!isDownValve_1&!isDownValve_2&!isDownValve_3&trumpet.volume<0.5) notePlay = noteC;//-  >=ТТТ=-
